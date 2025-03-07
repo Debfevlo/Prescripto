@@ -1,2 +1,11 @@
 @import "tailwindcss";
 
+.active li {
+    @apply text-primary
+}
+
+@theme{
+    --color-primary : #01ADF4;
+    --color-secondary : #FFCF6F
+}
+

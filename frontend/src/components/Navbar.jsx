@@ -1,76 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react'
+import {NavLink, useNavigate, useLocation} from 'react-router-dom'
+import profile from '../assets/Portrait.png'
+import { IoMdArrowDropdown } from "react-icons/io"
+
+
 
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState("");
-  const location = useLocation(); // Get current route
+  const [activeSection, setActiveSection] = useState('')
+  const [token, setToken] = useState(true)
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  // Function to handle section clicks (for hash links)
-  const handleSetActive = (section) => {
-    setActiveSection(section);
-    document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Update active section when the route changes (for normal `/` links)
-  useEffect(() => {
-    if (location.hash) {
-      setActiveSection(location.hash.substring(1)); // Remove '#' from hash
-    } else {
-      setActiveSection(location.pathname); // Track normal route changes
-    }
-  }, [location]);
-
+  useEffect(()=>{
+    setActiveSection(location.pathname)
+  }, [location])
   return (
-    <div className='flex justify-between items-center text-sm py-4 mb-5'>
+    <div className='flex items-center justify-between py-4 mb-4'>
       {/* Company's logo */}
-      <p>MediBridge.</p>
+      <p>DocOnCall</p>
 
-      {/* Navlinks */}
+      {/* NavLinks */}
       <ul className='hidden md:flex gap-5 items-start font-medium'>
-        {/* Normal Links */}
-        <NavLink to='/' onClick={() => setActiveSection('/')}>
-          <li className='py-1'>Home</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "/" ? "block" : "hidden"}`} />
+        <NavLink to='/' onClick={()=>setActiveSection('/')}>
+          <li>Home</li>
+      <hr className={`w-3/4 m-auto border-none outline-none h-0.5 bg-primary ${activeSection ==='/' ?  'block' : 'hidden'}`} />
         </NavLink>
 
-        <NavLink to='/about' onClick={() => setActiveSection('/about')}>
-          <li className='py-1'>About Us</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "/about" ? "block" : "hidden"}`} />
+        <NavLink to='/about' onClick={()=>setActiveSection('/about')}>
+          <li>About Us</li>
+          <hr className={`w-3/4 m-auto border-none outline-none h-0.5 bg-primary ${activeSection ==='/about' ?  'block' : 'hidden'}`}/>
         </NavLink>
 
-        <NavLink to='/contact' onClick={() => setActiveSection('/contact')}>
-          <li className='py-1'>Contact Us</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "/contact" ? "block" : "hidden"}`} />
+        <NavLink to='/service' onClick={()=>setActiveSection('/service')}>
+          <li>Services</li>
+          <hr className={`w-3/4 m-auto border-none outline-none h-0.5 bg-primary ${activeSection ==='/service' ?  'block' : 'hidden'}`}/>
         </NavLink>
 
-        <NavLink to='/services' onClick={() => setActiveSection('/services')}>
-          <li className='py-1'>Our Services</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "/services" ? "block" : "hidden"}`} />
-        </NavLink>
-
-        {/* Hash Links (Manual Active State) */}
-        <NavLink to='#Blog' onClick={() => handleSetActive("Blog")}>
-          <li className='py-1'>Blog</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "Blog" ? "block" : "hidden"}`} />
-        </NavLink>
-
-        <NavLink to='#FAQ' onClick={() => handleSetActive("FAQ")}>
-          <li className='py-1'>FAQ</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "FAQ" ? "block" : "hidden"}`} />
-        </NavLink>
-
-        <NavLink to='#Testimonials' onClick={() => handleSetActive("Testimonials")}>
-          <li className='py-1'>Testimonials</li>
-          <hr className={`border-none outline-none h-0.5 bg-blue-500 w-3/4 m-auto ${activeSection === "Testimonials" ? "block" : "hidden"}`} />
+        <NavLink to='/contact' onClick={()=>setActiveSection('/contact')}>
+          <li>Contact us</li>
+          <hr className={`w-3/4 m-auto border-none outline-none h-0.5 bg-primary ${activeSection ==='/contact' ?  'block' : 'hidden'}`}/>
         </NavLink>
       </ul>
 
-      {/* Create account button */}
-      <div>
-        <button>Create Account</button>
+      {/* Button */}
+      <div className='flex items-center gap-4'>
+        {
+          token
+          ? 
+          <div className='flex items-center gap-1 group relative cursor-pointer'>
+            <img src={profile} alt="profile pic" className='w-8 rounded-full '/>
+            <IoMdArrowDropdown />
+            <div className='absolute top-0 right-0 pt-14 text-base font-medium hidden group-hover:block z-20'>
+              <div className='min-w-48 bg-primary flex flex-col gap-4 text-white p-4'>
+                <p className='hover:text-secondary' onClick={()=>navigate('/profile')}>My profile</p>
+                <p className='hover:text-secondary' onClick={()=>navigate('/appointment')}>My Appointment</p>
+                <p onClick={()=>setToken(false)} className='hover:text-secondary'>Logout</p>
+              </div>
+            </div>
+          </div>
+          :
+          <button className='bg-primary px-5 py-3 text-white rounded-full hidden md:block hover:cursor-pointer'  onClick={()=>navigate('/login')}> Create an Account</button>
+        }
+        
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
