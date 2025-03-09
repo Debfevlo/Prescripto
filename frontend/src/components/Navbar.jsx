@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {NavLink, useNavigate, useLocation} from 'react-router-dom'
 import profile from '../assets/Portrait.png'
 import { IoMdArrowDropdown } from "react-icons/io"
+import logo from '../assets/DocOnCall.png'
 
 
 
@@ -15,9 +16,9 @@ const Navbar = () => {
     setActiveSection(location.pathname)
   }, [location])
   return (
-    <div className='flex items-center justify-between py-4 mb-4'>
+    <div className='flex items-center justify-between'>
       {/* Company's logo */}
-      <p>DocOnCall</p>
+      <img src={logo} alt="company's logo" className='w-30' />
 
       {/* NavLinks */}
       <ul className='hidden md:flex gap-5 items-start font-medium'>
